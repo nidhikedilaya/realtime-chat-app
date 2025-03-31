@@ -1,3 +1,5 @@
+/* pages/index.js */
+
 import React, { Component } from "react";
 import Layout from "../components/Layout";
 import Chat from "../components/Chat";

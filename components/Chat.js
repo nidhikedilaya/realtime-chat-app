@@ -19,15 +19,14 @@ class Chat extends Component {
     this.channel = this.pusher.subscribe("chat-room");
 
     this.channel.bind("new-message", ({ chat = null }) => {
-      const { chats } = this.state;
-      chat && chats.push(chat);
-      this.setState({ chats });
+      if (chat) {
+        this.setState((prevState) => ({ chats: [...prevState.chats, chat] }));
+      }
     });
 
     this.pusher.connection.bind("connected", () => {
       axios.post("/messages").then((response) => {
-        const chats = response.data.messages;
-        this.setState({ chats });
+        this.setState({ chats: response.data.messages });
       });
     });
   }
@@ -35,6 +34,7 @@ class Chat extends Component {
   componentWillUnmount() {
     this.pusher.disconnect();
   }
+
   handleKeyUp = (evt) => {
     const value = evt.target.value;
 
@@ -51,6 +51,7 @@ class Chat extends Component {
     return (
       this.props.activeUser && (
         <Fragment>
+          {/* CHAT HEADER */}
           <div
             className="border-bottom border-gray w-100 d-flex align-items-center bg-white"
             style={{ height: 90 }}
@@ -60,6 +61,7 @@ class Chat extends Component {
             </h2>
           </div>
 
+          {/* CHAT MESSAGES */}
           <div
             className="px-4 pb-4 w-100 d-flex flex-row flex-wrap align-items-start align-content-start position-relative"
             style={{ height: "calc(100% - 180px)", overflowY: "scroll" }}
@@ -97,13 +99,13 @@ class Chat extends Component {
                       <span>{chat.user || "Anonymous"}</span>
                     </div>
                   )}
-
                   <ChatMessage message={chat.message} position={position} />
                 </Fragment>
               );
             })}
           </div>
 
+          {/* CHAT MESSAGE BOX */}
           <div
             className="border-top border-gray w-100 px-4 d-flex align-items-center bg-light"
             style={{ minHeight: 90 }}

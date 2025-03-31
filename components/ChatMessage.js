@@ -1,3 +1,5 @@
+/* components/ChatMessage.js */
+
 import React, { Component } from "react";
 
 class ChatMessage extends Component {

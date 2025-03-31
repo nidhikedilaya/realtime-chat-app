@@ -1,3 +1,5 @@
+/* server.js */
+
 const cors = require("cors");
 const next = require("next");
 const Pusher = require("pusher");
