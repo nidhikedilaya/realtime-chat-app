@@ -5,9 +5,9 @@
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "dev": "node server.js",
+    "dev": "next dev",
     "build": "next build",
-    "start": "NODE_ENV=production node server.js",
+    "start": "next start",
     "postinstall": "chmod +x node_modules/.bin/next"
   },
   "keywords": [],
@@ -25,5 +25,8 @@
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
     "sentiment": "^5.0.2"
+  },
+  "devDependencies": {
+    "cross-env": "^7.0.3"
   }
 }

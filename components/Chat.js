@@ -25,7 +25,7 @@ class Chat extends Component {
     });
 
     this.pusher.connection.bind("connected", () => {
-      axios.post("/messages").then((response) => {
+      axios.post("/api/messages").then((response) => {
         this.setState({ chats: response.data.messages });
       });
     });
@@ -43,7 +43,7 @@ class Chat extends Component {
       const chat = { user, message: value, timestamp: +new Date() };
 
       evt.target.value = "";
-      axios.post("/message", chat);
+      axios.post("/api/message", chat);
     }
   };
 
