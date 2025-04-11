@@ -1,4 +1,4 @@
-// pages/api/message.js
+import { supabase } from "../../lib/supabase";
 import Pusher from "pusher";
 import Sentiment from "sentiment";
 
@@ -12,24 +12,17 @@ const pusher = new Pusher({
   useTLS: true,
 });
 
-// Top of both files
-if (!global.chatHistory) {
-  global.chatHistory = { messages: [] };
-}
-const chatHistory = global.chatHistory;
-
-//let chatHistory = global.chatHistory || { messages: [] };
-if (process.env.NODE_ENV !== "production") global.chatHistory = chatHistory;
-
 export default async function handler(req, res) {
   if (req.method === "POST") {
-    const { user = null, message = "", timestamp = +new Date() } = req.body;
+    const { user, message, timestamp } = req.body;
     const sentimentScore = sentiment.analyze(message).score;
 
     const chat = { user, message, timestamp, sentiment: sentimentScore };
 
-    chatHistory.messages.push(chat);
+    // Store in Supabase
+    await supabase.from("messages").insert([chat]);
 
+    // Trigger Pusher
     await pusher.trigger("chat-room", "new-message", { chat });
 
     res.status(200).json({ status: "success" });
