@@ -9,8 +9,8 @@ class IndexPage extends Component {
 
   handleKeyUp = (evt) => {
     if (evt.keyCode === 13) {
-      const user = evt.target.value;
-      this.setState({ user });
+      const user = evt.target.value.trim();
+      if (user) this.setState({ user });
     }
   };
 
@@ -23,43 +23,40 @@ class IndexPage extends Component {
       border: 0,
       borderBottom: "1px solid #666",
       borderRadius: 0,
-      fontSize: "3rem",
+      fontSize: "2rem",
       fontWeight: 500,
-      boxShadow: "none !important",
     };
 
     return (
       <Layout pageTitle="Realtime Chat">
-        <main className="container-fluid position-absolute h-100 bg-dark">
-          <div className="row position-absolute w-100 h-100">
-            <section className="col-md-8 d-flex flex-row flex-wrap align-items-center align-content-center px-5">
-              <div className="px-5 mx-5">
-                <span
-                  className="d-block w-100 h1 text-light"
-                  style={{ marginTop: -50 }}
-                >
+        <main className="container-fluid min-vh-100 bg-dark d-flex flex-column justify-content-center align-items-center p-3">
+          <div className="row w-100 flex-grow-1">
+            <section className="col-12 col-md-8 d-flex justify-content-center align-items-center p-4">
+              <div className="text-center w-100">
+                <h1 className="text-light mb-4" style={{ fontSize: "2rem" }}>
                   {user ? (
-                    <span>
+                    <>
                       <span style={{ color: "#999" }}>Hello!</span> {user}
-                    </span>
+                    </>
                   ) : (
-                    `What is your name?`
+                    "What is your name?"
                   )}
-                </span>
+                </h1>
 
                 {!user && (
                   <input
                     type="text"
-                    className="form-control mt-3 px-3 py-2"
+                    className="form-control mx-auto"
+                    style={nameInputStyles}
                     onKeyUp={this.handleKeyUp}
                     autoComplete="off"
-                    style={nameInputStyles}
+                    placeholder="Enter your name"
                   />
                 )}
               </div>
             </section>
 
-            <section className="col-md-4 position-relative d-flex flex-wrap h-100 align-items-start align-content-between bg-white px-0">
+            <section className="col-12 col-md-4 bg-white px-0 d-flex flex-column h-100">
               {user && <Chat activeUser={user} />}
             </section>
           </div>
