@@ -1,10 +1,10 @@
-# 🗨️ Real-Time Chat App
+# Real-Time Chat App
 
 A modern real-time chat application built with **Next.js**, **Pusher**, and **Supabase**. This project enables instant messaging with a sleek interface, serverless backend, and live communication updates.
 
 ---
 
-## 🚀 Features
+## Features
 
 -  Real-time messaging with **Pusher**
 -  Modular component structure
@@ -14,7 +14,7 @@ A modern real-time chat application built with **Next.js**, **Pusher**, and **Su
 
 ---
 
-## 🛠️ Tech Stack
+## Tech Stack
 
 - **Frontend**: Next.js, React
 - **Backend**: Next.js API Routes
@@ -24,7 +24,7 @@ A modern real-time chat application built with **Next.js**, **Pusher**, and **Su
 
 ---
 
-## 🔧 Setup Instructions
+## Setup Instructions
 
 ### 1. Clone the Repository
 
@@ -56,7 +56,7 @@ npm run dev
 ```
 Visit http://localhost:3000 to use the app.
 
-## 🚀 Deployment
+## Deployment
 Deploy seamlessly with Vercel:
 ```bash
 vercel

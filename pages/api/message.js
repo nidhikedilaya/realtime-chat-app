@@ -13,20 +13,32 @@ const pusher = new Pusher({
 });
 
 export default async function handler(req, res) {
-  if (req.method === "POST") {
+  if (req.method !== "POST") {
+    return res.status(405).json({ error: "Method not allowed" });
+  }
+
+  try {
     const { user, message, timestamp } = req.body;
+    if (!user || !message || !timestamp) {
+      return res.status(400).json({ error: "Missing required fields" });
+    }
+
+    // Analyze sentiment
     const sentimentScore = sentiment.analyze(message).score;
 
     const chat = { user, message, timestamp, sentiment: sentimentScore };
 
-    // Store in Supabase
-    await supabase.from("messages").insert([chat]);
+    // Insert into Supabase
+    const { error } = await supabase.from("messages").insert([chat]);
+    if (error) {
+      throw new Error(error.message);
+    }
 
-    // Trigger Pusher
+    // Trigger Pusher event
     await pusher.trigger("chat-room", "new-message", { chat });
 
-    res.status(200).json({ status: "success" });
-  } else {
-    res.status(405).json({ error: "Method not allowed" });
+    return res.status(200).json({ status: "success", chat });
+  } catch (err) {
+    return res.status(500).json({ error: err.message || "Internal server error" });
   }
 }

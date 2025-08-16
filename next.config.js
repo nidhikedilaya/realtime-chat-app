@@ -1,15 +1,12 @@
-const webpack = require("webpack");
-require("dotenv").config();
-
-module.exports = {
-  webpack: (config) => {
-    const env = Object.keys(process.env).reduce((acc, curr) => {
-      acc[`process.env.${curr}`] = JSON.stringify(process.env[curr]);
-      return acc;
-    }, {});
-
-    config.plugins.push(new webpack.DefinePlugin(env));
-
-    return config;
+/** @type {import('next').NextConfig} */
+const nextConfig = {
+  reactStrictMode: true,
+  env: {
+    PUSHER_APP_ID: process.env.PUSHER_APP_ID,
+    PUSHER_APP_KEY: process.env.PUSHER_APP_KEY,
+    PUSHER_APP_SECRET: process.env.PUSHER_APP_SECRET,
+    PUSHER_APP_CLUSTER: process.env.PUSHER_APP_CLUSTER,
   },
 };
+
+module.exports = nextConfig;

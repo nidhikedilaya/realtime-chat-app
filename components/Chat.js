@@ -25,7 +25,7 @@ class Chat extends Component {
     });
 
     this.pusher.connection.bind("connected", () => {
-      axios.post("/api/messages").then((response) => {
+      axios.get("/api/messages").then((response) => {
         this.setState({ chats: response.data.messages });
       });
     });
